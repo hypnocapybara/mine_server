@@ -20,16 +20,6 @@ class GameConsumer(WebsocketConsumer):
             self.game_group_name,
             self.channel_name)
 
-    def receive(self, text_data=None, bytes_data=None):
-        text_data_json = json.loads(text_data)
-        async_to_sync(self.channel_layer.group_send)(
-            self.game_group_name,
-            {
-                'type': 'game',
-                'game': text_data_json['game']
-            }
-        )
-
     def game(self, event):
         message = event['game']
         self.send(text_data=json.dumps({
